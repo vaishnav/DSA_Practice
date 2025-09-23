@@ -56,6 +56,13 @@ class SinglyLinkedList:
             print(f"{current.data}", end=" -> ")
             current = current.next
 
+    def appendList(self, elements: list):
+        for element in elements:
+            self.append(element)
+
+    def getList(self):
+        return self.head
+
 
 class DoubleNode:
     def __init__(self, val):
