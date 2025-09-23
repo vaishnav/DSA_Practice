@@ -3,6 +3,36 @@ class SingleNode:
         self.next = None
         self.data = val
 
+    # Operator Overloading: Equality Check
+    def __eq__(self, other):
+        """
+        Compare two linked lists for equality using == operator.
+
+        Steps:
+        1. Ensure 'other' is also a SingleNode (otherwise return False).
+        2. Traverse both lists node by node.
+        3. If any corresponding nodes have different data -> return False.
+        4. If one list ends before the other -> return False.
+        5. If both lists finish at the same time with all values equal -> return True.
+        """
+        if not isinstance(other, SingleNode):
+            # Can't compare LinkedList with a non-LinkedList object
+            return False
+        
+        current_self = self
+        current_other = other
+        
+        # Traverse both lists simultaneously
+        while current_self and current_other:
+            if current_self.data != current_other.data:
+                # Found a mismatch -> lists are not equal
+                return False
+            current_self = current_self.next
+            current_other = current_other.next
+        
+        # Both must end at the same time to be equal
+        return current_self is None and current_other is None
+
 class SinglyLinkedList:
     def __init__(self):
         self.head = None
