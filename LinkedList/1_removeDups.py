@@ -11,10 +11,12 @@ class RemoveDups(DSATest):
         index = 0
         while curr:
             value = curr.data
-            if value not in dups:
-                dups[value] = set()
+            if value in dups:
+                if type(value) == type(dups[value][0]):
+                    dups[value][1].add(index)
+                    # will skip the float entry, so it won't be deleted later
             else:
-                dups[value].add(index)
+                dups[value] = [value, set()]
 
             index += 1
             curr = curr.next
@@ -22,9 +24,9 @@ class RemoveDups(DSATest):
         curr = s
         for i in range(1, index):
             value = curr.next.data
-            if index in dups[value]:
+            if i in dups[value][1]:
                 if curr == s:
-                    s = curr.next.next
+                    s.next = curr.next.next
                 else:
                     curr.next = curr.next.next
             else:
@@ -40,6 +42,7 @@ class RemoveDupsNoBuffer(DSATest):
             curr = start.next
             value = start.data
             while curr:
+                # Also have to add the check for type as int eg 1, and float eg 1.0 will be considered
                 if value == curr.data and type(value) == type(curr.data):
                     prev.next = curr.next
                 else:
@@ -109,7 +112,7 @@ if __name__ == "__main__":
         # List with floats and duplicates
         ([1.1, 2.2, 1.1, 3.3, 2.2], [1.1, 2.2, 3.3]),
         # List with mixed int and float duplicates
-        ([1, 1.0, 2, 2.0], [1, 1.0, 2, 2.0]),
+        ([1, 1, 1, 1.0, 1, 2, 2.0], [1, 1.0, 2, 2.0]),
         # List with single element repeated with spaces
         (["a", "a", "a", " "], ["a", " "]),
         # Reversed list with duplicates
@@ -141,8 +144,8 @@ if __name__ == "__main__":
     test_cases = get_test_cases(base_test_cases)
 
     # Create an instance of the problem subclass
-    # tester = RemoveDups()
-    tester = RemoveDupsNoBuffer()
+    tester = RemoveDups()
+    # tester = RemoveDupsNoBuffer()
 
     # Run the tests with performance reporting enabled
     results = tester.run_tests(test_cases, show_performance=True)
