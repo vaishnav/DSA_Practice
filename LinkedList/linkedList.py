@@ -32,6 +32,17 @@ class SingleNode:
         
         # Both must end at the same time to be equal
         return current_self is None and current_other is None
+    
+    def __str__(self):
+        """
+        Override print for Nodes
+        """
+        curr = self
+        values = []
+        while curr:
+            values.append(str(curr.data))
+            curr = curr.next
+        return "".join(values)
 
 class SinglyLinkedList:
     def __init__(self):

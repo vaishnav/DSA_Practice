@@ -31,6 +31,23 @@ class RemoveDups(DSATest):
                 curr = curr.next
 
         return s
+    
+class RemoveDupsNoBuffer(DSATest):
+    def solution(self, s: SingleNode):
+        start = s
+        while start:
+            prev = start
+            curr = start.next
+            value = start.data
+            while curr:
+                if value == curr.data and type(value) == type(curr.data):
+                    prev.next = curr.next
+                else:
+                    prev = prev.next
+                curr = curr.next
+            start = start.next
+        return s
+
 
 def get_test_cases(cases: list):
     final_cases = []
@@ -40,7 +57,7 @@ def get_test_cases(cases: list):
         input_case_head = input_case.getList()
 
         expected_output_case = SinglyLinkedList()
-        expected_output_case.appendList(case[0])
+        expected_output_case.appendList(case[1])
         expected_output_case_head = expected_output_case.getList()
 
         final_cases.append([input_case_head, expected_output_case_head])
@@ -108,7 +125,7 @@ if __name__ == "__main__":
         # List with alphabet letters repeated
         (
             [chr(65 + i // 2) for i in range(50)],
-            list(set([chr(65 + i // 2) for i in range(50)])),
+            [chr(65 + i) for i in range(25)],
         ),
         # Large random list with repeated pattern
         ([1, 2, 3, 4, 5] * 7, [1, 2, 3, 4, 5]),
@@ -124,7 +141,8 @@ if __name__ == "__main__":
     test_cases = get_test_cases(base_test_cases)
 
     # Create an instance of the problem subclass
-    tester = RemoveDups()
+    # tester = RemoveDups()
+    tester = RemoveDupsNoBuffer()
 
     # Run the tests with performance reporting enabled
     results = tester.run_tests(test_cases, show_performance=True)
