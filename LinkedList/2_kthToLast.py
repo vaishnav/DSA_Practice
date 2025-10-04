@@ -5,6 +5,8 @@ from LinkedList.linkedList import *
 
 class KthToLast(DSATest):
     def solution(self, llist: SingleNode, kth: int):
+        # Two pointer solution, if we move first pointer to k places and start moving second pointer too
+        # by the time first pointer will reach to last position, both pointer will have gap of k between them.
         last_pointer = llist
         for i in range(kth):
             if last_pointer:
@@ -20,6 +22,34 @@ class KthToLast(DSATest):
         if curr:
             return curr.data
         return None
+    
+
+class KthToLastRecursive(DSATest):
+    def __init__(self):
+        self.curr_index = 1
+
+    def solution(self, llist: SingleNode, kth: int):
+        # Go to the last element and move back one at a time, checking if the current element is kth from last
+        # Empty list
+        if llist == None:
+            return None
+        
+        # Base case, last element
+        if llist.next == None:
+            self.curr_index = 1
+            if self.curr_index == kth:
+                return llist.data
+            self.curr_index += 1
+            return None
+        
+        value = self.solution(llist.next, kth)
+
+        if value == None:
+            if self.curr_index == kth:
+                return llist.data
+            self.curr_index += 1
+            return None
+        return value
 
 
 def get_test_cases(cases: list):
@@ -105,8 +135,11 @@ if __name__ == "__main__":
     # Create an instance of the problem subclass
     tester = KthToLast()
 
+    testerRecursive  = KthToLastRecursive()
+
     # Run the tests with performance reporting enabled
-    results = tester.run_tests(test_cases, show_performance=True)
+    # results = tester.run_tests(test_cases, show_performance=True)
+    results = testerRecursive.run_tests(test_cases, show_performance=True)
 
     # Print a detailed report
     report = tester.generate_report()
