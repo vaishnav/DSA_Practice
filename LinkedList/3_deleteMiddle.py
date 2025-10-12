@@ -1,5 +1,4 @@
-# Implement an algorithm to delete a node in the middle (ie. any node but the first and last node, not necessarily the exact middle) of a singly liked list,
-# given only access to that node
+# Implement an algorithm to delete a node in the middle of a singly liked list,
 # Example [1,2,3,4,5,6] will turn to [1,2,4,5,6]
 from tester import DSATest
 from LinkedList.linkedList import *
@@ -7,30 +6,30 @@ from LinkedList.linkedList import *
 
 class DeleteMiddle(DSATest):
     def solution(self, link_list: SingleNode):
+        # If the list is empty
         if not link_list:
             return link_list
 
-        slow_pointer = link_list
+        # Fast pointer starts at second node and slow starts at None node
         fast_pointer = link_list.next
-        previous = None
+        slow_pointer = None
         while fast_pointer:
             fast_pointer = fast_pointer.next
             if not fast_pointer:
                 break
 
             fast_pointer = fast_pointer.next
-            slow_pointer = slow_pointer.next
-            if not previous:
-                previous = link_list
+            if not slow_pointer:
+                slow_pointer = link_list
             else:
-                previous = previous.next
+                slow_pointer = slow_pointer.next
         
         # First element is the middle element
-        if not previous:
+        if not slow_pointer:
             link_list = link_list.next
             return link_list
 
-        previous.next = slow_pointer.next
+        slow_pointer.next = slow_pointer.next.next
         return link_list
 
 
