@@ -103,6 +103,23 @@ class SinglyLinkedList:
 
     def getList(self):
         return self.head
+    
+    def getNode(self, index):
+        if index < 0:
+            raise ValueError("Index cannot be negative")
+
+        curr = self.head
+
+        for _ in range(index):
+            if not curr:
+                raise Exception("Index out of range")
+            curr = curr.next
+
+        if curr is None:
+            raise Exception("Index out of range")
+
+        return curr
+
 
 
 class DoubleNode:
